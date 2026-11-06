@@ -241,7 +241,7 @@ function createHandShape(
   // the same contour direction.
   for (let i = 1; i < ordered.length; i++) {
     const previous = ordered[i - 1];
-    const current = ordered[i];
+   const current = ordered[i]; 
 
     const distanceLeft =
       previous.right[0].distanceTo(
@@ -366,7 +366,7 @@ function createHandShape(
       break;
     }
 
-    const current = ordered[i];
+
     const next = ordered[i + 1];
 
     // Finger webbing: a soft U-shaped valley
