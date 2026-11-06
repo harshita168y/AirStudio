@@ -4215,3 +4215,128 @@ h1, h2, h3, strong {
 
   color: #fff1d4;
 }
+
+
+/* Gameplay-only fullscreen layout: leaves other pages untouched */
+.game-studio.game-studio--fullscreen {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.game-studio--fullscreen .game-fullscreen-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  overflow: hidden;
+}
+.game-studio--fullscreen .game-fullscreen-header {
+  position: absolute;
+  z-index: 30;
+  top: 14px;
+  left: 18px;
+  right: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: start;
+  justify-items: start;
+  gap: 10px 12px;
+  min-height: 0;
+  padding: 0;
+  pointer-events: none;
+}
+.game-studio--fullscreen .game-fullscreen-header > * {
+  pointer-events: auto;
+}
+.game-studio--fullscreen .game-compact-track {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  text-align: left;
+  padding: 8px 12px;
+  background: rgba(23, 18, 15, .76);
+  border: 1px solid rgba(201, 149, 83, .18);
+  border-radius: 7px;
+}
+.game-studio--fullscreen .game-compact-track h1 {
+  font-size: clamp(17px, 2vw, 23px);
+}
+.game-studio--fullscreen .game-compact-stats {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+  gap: 0;
+  background: rgba(23, 18, 15, .78);
+}
+.game-studio--fullscreen .game-compact-stat {
+  padding: 7px 11px;
+  gap: 3px;
+}
+.game-studio--fullscreen .game-compact-stat strong {
+  font-size: clamp(13px, 1.4vw, 18px);
+}
+.game-studio--fullscreen .game-compact-camera {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  width: clamp(150px, 18vw, 230px);
+  max-width: 100%;
+}
+.game-studio--fullscreen .game-fullscreen-footer {
+  position: absolute;
+  z-index: 30;
+  bottom: 12px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  min-height: 0;
+  pointer-events: none;
+}
+.game-studio--fullscreen .game-fullscreen-footer > * {
+  pointer-events: auto;
+}
+.game-studio--fullscreen .game-result-overlay {
+  z-index: 20;
+  padding: 16px;
+}
+@media (max-width: 700px) {
+  .game-studio--fullscreen .game-fullscreen-header {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    gap: 6px;
+  }
+  .game-studio--fullscreen .game-compact-track {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 6px 8px;
+  }
+  .game-studio--fullscreen .game-compact-stats {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .game-studio--fullscreen .game-compact-stat {
+    padding: 5px 6px;
+  }
+  .game-studio--fullscreen .game-compact-stat span { font-size: 7px; }
+  .game-studio--fullscreen .game-compact-stat strong { font-size: 12px; }
+  .game-studio--fullscreen .game-compact-camera {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: clamp(105px, 30vw, 150px);
+  }
+  .game-studio--fullscreen .game-fullscreen-footer {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+}
