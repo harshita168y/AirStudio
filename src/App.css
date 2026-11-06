@@ -132,3 +132,81 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.lane-display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.lane {
+  min-height: 130px;
+  background: #28231d;
+  border: 1px solid #4a3b29;
+  border-radius: 12px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  transition: background 120ms, border-color 120ms;
+}
+
+.lane span,
+.lane small {
+  color: #a99f91;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.lane strong {
+  color: #e6c18b;
+  font-size: 18px;
+}
+
+.lane.active {
+  background: #644724;
+  border-color: #e2ae66;
+}
+
+.lane.active small {
+  color: #f3d3a1;
+}
+
+@media (max-width: 600px) {
+  .lane-display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.curl-meter {
+  width: 100%;
+  height: 12px;
+  margin: 12px 0 18px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #17130f;
+  border: 1px solid #4a3b29;
+}
+
+.curl-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #a87439,
+    #e6c18b
+  );
+  transition: width 70ms linear;
+}
+
+.lane.holding {
+  background: #765027;
+  border-color: #f0bf75;
+  box-shadow: inset 0 0 18px rgba(240, 191, 117, 0.16);
+}
+.game-fullscreen-field {
+  position: relative;
+}

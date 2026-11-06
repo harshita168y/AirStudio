@@ -1,0 +1,1122 @@
+
+/* ==========================================
+   AIRSTUDIO — RHYTHM TRAINING
+   ========================================== */
+
+.training-page {
+  --train-bg: #120f0d;
+  --train-panel: #1b1612;
+  --train-gold: #e1b47c;
+  --train-text: #f5ede3;
+  --train-muted: #a99b8d;
+  --train-line: rgba(225, 180, 124, 0.16);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+
+  background: var(--train-bg);
+  color: var(--train-text);
+
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.training-page *,
+.training-page *::before,
+.training-page *::after {
+  box-sizing: border-box;
+}
+
+/* HEADER */
+
+.training-header {
+  flex: 0 0 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  border-bottom: 1px solid var(--train-line);
+  background: #17120f;
+}
+
+.training-brand,
+.training-header-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.training-brand-mark {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.training-brand-mark span {
+  color: var(--train-gold);
+}
+
+.training-header-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--train-line);
+}
+
+.training-mode,
+.training-step-count,
+.training-exit {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.training-mode {
+  color: var(--train-muted);
+}
+
+.training-step-count {
+  color: var(--train-gold);
+}
+
+.training-step-count span {
+  color: var(--train-muted);
+}
+
+.training-exit {
+  color: var(--train-text);
+  text-decoration: none;
+
+  border: 1px solid var(--train-line);
+  padding: 10px 14px;
+
+  transition: 0.2s ease;
+}
+
+.training-exit:hover {
+  border-color: var(--train-gold);
+  color: var(--train-gold);
+}
+
+/* PROGRESS */
+
+.training-progress {
+  flex: 0 0 4px;
+
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+
+  background: #100c0a;
+}
+
+.training-progress-bar {
+  background: #34271d;
+  transition: background 0.3s ease;
+}
+
+.training-progress-bar.is-filled {
+  background: var(--train-gold);
+}
+
+/* MAIN STAGE */
+
+.training-stage {
+  position: relative;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    300px;
+
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* RHYTHM BOARD */
+
+.training-board {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 15%,
+      rgba(156, 100, 50, 0.12),
+      transparent 65%
+    ),
+    #100d0b;
+}
+
+.training-board-grid {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.training-lane {
+  position: relative;
+  min-width: 0;
+
+  border-right: 1px solid rgba(225, 180, 124, 0.12);
+
+  background: linear-gradient(
+    to bottom,
+    rgba(225, 180, 124, 0.025),
+    transparent 65%,
+    rgba(225, 180, 124, 0.06)
+  );
+
+  transition:
+    background 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.training-lane:last-child {
+  border-right: none;
+}
+
+.training-lane.is-target {
+  background: linear-gradient(
+    to bottom,
+    rgba(225, 180, 124, 0.06),
+    rgba(225, 180, 124, 0.13)
+  );
+}
+
+.training-lane.is-dimmed {
+  opacity: 0.42;
+}
+
+.training-lane-top {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+
+  text-align: center;
+}
+
+.training-lane-hand {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+
+  color: rgba(225, 180, 124, 0.48);
+}
+
+/* FALLING NOTE */
+
+.training-falling-note {
+  position: absolute;
+
+  left: 18%;
+  width: 64%;
+  height: 24px;
+
+  top: -30px;
+
+  border: 1px solid #f6d3a6;
+  border-radius: 5px;
+
+  background: linear-gradient(
+    180deg,
+    #f6d3a6,
+    #ba7b43
+  );
+
+  box-shadow:
+    0 0 18px rgba(225, 180, 124, 0.45),
+    0 0 45px rgba(225, 180, 124, 0.15);
+
+  animation: training-note-fall 2.5s linear infinite;
+}
+
+.training-falling-note span {
+  display: block;
+  width: 70%;
+  height: 2px;
+  margin: 6px auto;
+
+  background: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes training-note-fall {
+  from {
+    top: -30px;
+  }
+
+  to {
+    top: calc(100% - 105px);
+  }
+}
+
+/* HOLD NOTE */
+
+.training-hold-note {
+  position: absolute;
+
+  bottom: 100px;
+  left: 30%;
+
+  width: 40%;
+  height: 170px;
+
+  border: 1px solid var(--train-gold);
+  border-radius: 5px;
+
+  background: rgba(225, 180, 124, 0.07);
+  overflow: hidden;
+}
+
+.training-hold-note > div {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: rgba(225, 180, 124, 0.55);
+
+  transition: height 30ms linear;
+}
+
+/* HIT LINE */
+
+.training-hit-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 65px;
+
+  height: 2px;
+
+  background: rgba(225, 180, 124, 0.42);
+}
+
+.training-hit-pad {
+  position: absolute;
+
+  left: 50%;
+  top: -29px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: min(74px, 72%);
+  height: 58px;
+
+  border: 1px solid rgba(225, 180, 124, 0.4);
+  border-radius: 8px;
+
+  background: #2c2119;
+  color: var(--train-text);
+
+  font-size: 26px;
+  font-weight: 800;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  transition: 0.15s ease;
+}
+
+.training-lane.is-target .training-hit-pad {
+  border-color: var(--train-gold);
+  color: var(--train-gold);
+}
+
+.training-hit-pad.is-hit {
+  background: var(--train-gold);
+  color: #21150c;
+
+  box-shadow: 0 0 35px rgba(225, 180, 124, 0.65);
+}
+
+/* INSTRUCTION OVERLAY */
+
+.training-board-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: clamp(24px, 5vh, 55px) 20px 135px;
+
+  pointer-events: none;
+}
+
+.training-instruction {
+  width: min(100%, 540px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+
+  text-align: center;
+
+  animation: training-enter 0.35s ease both;
+}
+
+@keyframes training-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.training-eyebrow {
+  color: var(--train-gold);
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.training-instruction h1 {
+  margin: 0;
+
+  font-size: clamp(26px, 3.5vw, 50px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.training-instruction > p {
+  max-width: 410px;
+  margin: 0;
+
+  color: #c3b4a5;
+
+  font-size: clamp(12px, 1.1vw, 15px);
+  line-height: 1.55;
+}
+
+/* GESTURE INSTRUCTION */
+
+.training-gesture-guide {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-top: 4px;
+  padding: 8px 20px 8px 10px;
+
+  border: 1px solid rgba(225, 180, 124, 0.3);
+  border-radius: 12px;
+
+  background: rgba(19, 14, 10, 0.86);
+  color: var(--train-gold);
+
+  text-align: left;
+}
+
+.training-gesture-guide svg {
+  width: 66px;
+  height: 66px;
+  flex: 0 0 auto;
+}
+
+.training-gesture-guide > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.training-gesture-guide strong {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.training-gesture-guide span {
+  font-size: 12px;
+  color: #c3b4a5;
+}
+
+/* SETUP */
+
+.training-setup-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 18px;
+
+  color: var(--train-gold);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.training-pulse-dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+  background: var(--train-gold);
+
+  animation: training-pulse 1.3s infinite;
+}
+
+@keyframes training-pulse {
+  50% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+.training-hand-count {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.training-hand-count span {
+  padding: 13px 20px;
+
+  border: 1px solid var(--train-line);
+
+  color: #75685b;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.training-hand-count span.is-detected {
+  border-color: var(--train-gold);
+  background: rgba(225, 180, 124, 0.1);
+  color: var(--train-gold);
+}
+
+/* HOLD PROGRESS */
+
+.training-hold-progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: min(100%, 280px);
+  margin-top: 10px;
+}
+
+.training-hold-bar {
+  flex: 1;
+  height: 8px;
+
+  border-radius: 8px;
+  background: #403022;
+  overflow: hidden;
+}
+
+.training-hold-bar > div {
+  height: 100%;
+
+  background: var(--train-gold);
+  border-radius: inherit;
+
+  transition: width 30ms linear;
+}
+
+.training-hold-progress > span {
+  min-width: 45px;
+
+  color: var(--train-gold);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* FEEDBACK */
+
+.training-feedback {
+  padding: 9px 16px;
+
+  border: 1px solid rgba(225, 180, 124, 0.4);
+  border-radius: 6px;
+
+  background: rgba(18, 13, 9, 0.9);
+  color: var(--train-gold);
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* COMPLETE */
+
+.training-complete-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 16px;
+
+  pointer-events: auto;
+}
+
+.training-play-button {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 15px 22px;
+
+  background: var(--train-gold);
+  color: #1b120b;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.training-play-button:hover {
+  background: #f3c996;
+}
+
+.training-restart-button {
+  padding: 15px 18px;
+
+  border: 1px solid var(--train-line);
+  background: transparent;
+  color: var(--train-text);
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+}
+
+/* BOARD BOTTOM */
+
+.training-board-bottom {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 25px;
+
+  background: #17110d;
+  border-top: 1px solid var(--train-line);
+}
+
+.training-board-bottom > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--train-gold);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.training-board-bottom small {
+  color: var(--train-muted);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.training-board-bottom-center {
+  color: #776556;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+/* CAMERA SIDE PANEL */
+
+.training-camera-panel {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding: 22px 16px;
+
+  background: var(--train-panel);
+  border-left: 1px solid var(--train-line);
+
+  overflow: hidden;
+}
+
+.training-camera-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  flex: 0 0 auto;
+}
+
+.training-camera-label {
+  color: var(--train-gold);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.training-camera-top h2 {
+  margin: 7px 0 0;
+
+  font-size: 20px;
+  letter-spacing: -0.04em;
+}
+
+.training-live-dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+  background: #615146;
+}
+
+.training-live-dot.is-live {
+  background: #83c18d;
+  box-shadow: 0 0 12px rgba(131, 193, 141, 0.5);
+}
+
+/* EXISTING GAME CAMERA */
+
+.training-camera-view {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+.training-camera-view .game-compact-camera {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: relative;
+}
+
+.training-camera-view .game-camera-preview {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+
+  aspect-ratio: 4 / 3;
+  max-height: 250px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--train-line);
+  border-radius: 8px;
+
+  background: #080706;
+}
+
+.training-camera-view .game-camera-preview video,
+.training-camera-view .game-camera-preview canvas {
+  max-width: 100%;
+}
+
+.training-camera-view .game-camera-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  width: 100%;
+}
+
+.training-camera-view .game-camera-toggle {
+  cursor: pointer;
+}
+
+/* CAMERA INFORMATION */
+
+.training-camera-info {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.training-camera-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--train-muted);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.training-camera-status > span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: #78614b;
+}
+
+.training-camera-status > span.is-online {
+  background: #83c18d;
+}
+
+.training-camera-help {
+  padding-top: 15px;
+  border-top: 1px solid var(--train-line);
+}
+
+.training-camera-help strong {
+  color: var(--train-gold);
+
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.training-camera-help p {
+  margin: 10px 0 0;
+
+  color: var(--train-muted);
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* NAVIGATION */
+
+.training-camera-footer {
+  display: flex;
+  gap: 10px;
+
+  margin-top: auto;
+  flex: 0 0 auto;
+}
+
+.training-camera-footer button {
+  flex: 1;
+
+  padding: 12px 8px;
+
+  border: 1px solid var(--train-line);
+  background: transparent;
+  color: var(--train-text);
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+}
+
+.training-camera-footer button:hover:not(:disabled) {
+  border-color: var(--train-gold);
+  color: var(--train-gold);
+}
+
+.training-camera-footer button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* FOOTER */
+
+.training-footer {
+  flex: 0 0 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 25px;
+
+  border-top: 1px solid var(--train-line);
+  background: #17120f;
+
+  color: #867666;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+/* SHORT LAPTOP SCREENS */
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .training-header {
+    flex-basis: 52px;
+  }
+
+  .training-camera-panel {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .training-camera-top h2 {
+    font-size: 17px;
+  }
+
+  .training-camera-view .game-camera-preview {
+    max-height: 180px;
+  }
+
+  .training-camera-info {
+    gap: 12px;
+  }
+
+  .training-camera-help p {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .training-board-overlay {
+    padding-top: 22px;
+  }
+
+  .training-instruction {
+    gap: 8px;
+  }
+
+  .training-instruction h1 {
+    font-size: clamp(25px, 3vw, 38px);
+  }
+
+  .training-gesture-guide svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+  .training-stage {
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
+
+  .training-camera-panel {
+    padding: 14px 10px;
+    gap: 12px;
+  }
+
+  .training-camera-top h2 {
+    font-size: 16px;
+  }
+
+  .training-camera-view .game-camera-preview {
+    max-height: 180px;
+  }
+
+  .training-camera-help p {
+    font-size: 11px;
+  }
+
+  .training-board-bottom {
+    padding: 0 10px;
+  }
+
+  .training-board-bottom-center {
+    display: none;
+  }
+
+  .training-instruction h1 {
+    font-size: 30px;
+  }
+
+  .training-lane-hand {
+    font-size: 8px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .training-header {
+    flex-basis: 52px;
+    padding: 0 12px;
+  }
+
+  .training-brand-mark {
+    font-size: 16px;
+  }
+
+  .training-header-divider,
+  .training-mode,
+  .training-step-count {
+    display: none;
+  }
+
+  .training-exit {
+    font-size: 9px;
+    padding: 9px;
+  }
+
+  .training-stage {
+    grid-template-columns: minmax(0, 1fr) 145px;
+  }
+
+  .training-camera-panel {
+    padding: 10px 7px;
+    gap: 10px;
+  }
+
+  .training-camera-top h2 {
+    font-size: 13px;
+  }
+
+  .training-camera-label {
+    font-size: 8px;
+  }
+
+  .training-camera-view .game-camera-preview {
+    max-height: 120px;
+  }
+
+  .training-camera-view .game-camera-controls {
+    flex-wrap: wrap;
+  }
+
+  .training-camera-info {
+    gap: 10px;
+  }
+
+  .training-camera-status {
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .training-camera-help {
+    display: none;
+  }
+
+  .training-camera-footer {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .training-camera-footer button {
+    padding: 10px 4px;
+    font-size: 9px;
+  }
+
+  .training-board-overlay {
+    padding: 30px 8px 120px;
+  }
+
+  .training-instruction {
+    gap: 10px;
+  }
+
+  .training-instruction h1 {
+    font-size: 21px;
+  }
+
+  .training-instruction > p {
+    font-size: 11px;
+  }
+
+  .training-gesture-guide {
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .training-gesture-guide svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .training-gesture-guide strong,
+  .training-gesture-guide span {
+    font-size: 9px;
+  }
+
+  .training-hit-pad {
+    width: 80%;
+    height: 44px;
+    top: -22px;
+    font-size: 19px;
+  }
+
+  .training-lane-hand {
+    font-size: 7px;
+    letter-spacing: 0;
+  }
+
+  .training-board-bottom {
+    height: 35px;
+    padding: 0 6px;
+  }
+
+  .training-board-bottom > span {
+    flex-direction: column;
+    gap: 2px;
+    font-size: 10px;
+  }
+
+  .training-board-bottom small {
+    font-size: 7px;
+  }
+
+  .training-footer {
+    padding: 0 10px;
+    font-size: 7px;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .training-instruction,
+  .training-falling-note,
+  .training-pulse-dot {
+    animation: none;
+  }
+}
+
